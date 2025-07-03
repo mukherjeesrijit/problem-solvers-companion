@@ -38,13 +38,16 @@
       flex-direction: column;
       font-size: 0.9rem;
       color: #555;
+      flex: 1 1 150px;
+      min-width: 120px;
     }
     .filters input {
-      padding: 6px 8px;
+      padding: 8px 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       outline: none;
       transition: border 0.2s;
+      font-size: 1rem;
     }
     .filters input:focus {
       border-color: #007bff;
@@ -53,26 +56,30 @@
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: background-color 0.3s;
       align-self: center;
-      height: 38px;
-      margin-top: 18px;
+      margin-top: auto;
+      height: fit-content;
     }
     #filterButton:hover {
       background-color: #0056b3;
     }
+    .table-container {
+      width: 100%;
+      max-width: 1000px;
+      overflow-x: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: white;
+    }
     table {
       border-collapse: collapse;
-      width: 95%;
-      max-width: 1000px;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      min-width: 600px;
     }
     th, td {
       text-align: left;
@@ -84,6 +91,9 @@
     th {
       background-color: #f2f2f2;
       color: #555;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
     tr:hover {
       background-color: #f9f9f9;
@@ -92,7 +102,7 @@
       background-color: #28a745;
       color: white;
       border: none;
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 5px;
       cursor: pointer;
       font-size: 0.85rem;
@@ -104,10 +114,13 @@
     @media (max-width: 600px) {
       .filters {
         flex-direction: column;
-        align-items: center;
+        gap: 12px;
+      }
+      .filters label {
+        width: 100%;
       }
       th, td {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -117,37 +130,39 @@
 
   <div class="filters">
     <label>Topic:
-      <input type="text" id="filterTopic" placeholder="e.g., Algebra"/>
+      <input type="text" id="filterTopic" placeholder="e.g., Algebra" />
     </label>
     <label>Sub Topic:
-      <input type="text" id="filterSubTopic" placeholder="e.g., Vectors"/>
+      <input type="text" id="filterSubTopic" placeholder="e.g., Vectors" />
     </label>
     <label>Exam:
-      <input type="text" id="filterExam" placeholder="e.g., AMC"/>
+      <input type="text" id="filterExam" placeholder="e.g., AMC" />
     </label>
     <label>Year:
-      <input type="text" id="filterYear" placeholder="e.g., 2024"/>
+      <input type="text" id="filterYear" placeholder="e.g., 2024" />
     </label>
     <label>Problem #:
-      <input type="text" id="filterProblem" placeholder="e.g., 12"/>
+      <input type="text" id="filterProblem" placeholder="e.g., 12" />
     </label>
     <button id="filterButton">Apply Filters</button>
   </div>
 
-  <table id="problemTable">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Link</th>
-        <th>Topic</th>
-        <th>Sub Topic</th>
-        <th>Exam</th>
-        <th>Year</th>
-        <th>Problem #</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div class="table-container">
+    <table id="problemTable">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Link</th>
+          <th>Topic</th>
+          <th>Sub Topic</th>
+          <th>Exam</th>
+          <th>Year</th>
+          <th>Problem #</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script>
