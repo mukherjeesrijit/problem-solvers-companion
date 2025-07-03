@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Problem Solving Companion</title>
+</head>
+<body>
+  <h1>🧩 Problem Solving Companion</h1>
+  <div>
+    <label>Topic: <input type="text" id="filterTopic"></label>
+    <label>Sub Topic: <input type="text" id="filterSubTopic"></label>
+    <label>Exam: <input type="text" id="filterExam"></label>
+    <label>Year: <input type="text" id="filterYear"></label>
+    <label>Problem #: <input type="text" id="filterProblem"></label>
+    <button id="filterButton">Apply Filters</button>
+  </div>
+  <table border="1" id="problemTable">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Link</th>
+        <th>Topic</th>
+        <th>Sub Topic</th>
+        <th>Exam</th>
+        <th>Year</th>
+        <th>Problem #</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>
+    const csvUrl = "https://raw.githubusercontent.com/yourusername/problem-solving-companion/main/problems.csv";
+    let allData = [];
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csvText => {
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            allData = results.data;
+            renderTable(allData);
+          }
+        });
+      });
+    document.getElementById('filterButton').addEventListener('click', function() {
+      const topic = document.getElementById('filterTopic').value.toLowerCase();
+      const subTopic = document.getElementById('filterSubTopic').value.toLowerCase();
+      const exam = document.getElementById('filterExam').value.toLowerCase();
+      const year = document.getElementById('filterYear').value.toLowerCase();
+      const problem = document.getElementById('filterProblem').value.toLowerCase();
+      const filtered = allData.filter(row => {
+        return (!topic || (row['Topic'] || '').toLowerCase().includes(topic)) &&
+               (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
+               (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
+               (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
+               (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
+      });
+      renderTable(filtered);
+    });
+    function renderTable(data) {
+      const tbody = document.querySelector('#problemTable tbody');
+      tbody.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        Object.keys(row).forEach(key => {
+          const td = document.createElement('td');
+          if (key === 'Link') {
+            const a = document.createElement('a');
+            a.href = row[key];
+            a.target = '_blank';
+            a.textContent = 'Open Colab';
+            td.appendChild(a);
+          } else {
+            td.textContent = row[key];
+          }
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
