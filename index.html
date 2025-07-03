@@ -167,13 +167,33 @@
     display: block;
   }
 }
+
+    .author-credit {
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 20px; /* Adds clean space below */
+}
+
+.author-credit a {
+  color: #0077b5; /* LinkedIn blue */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.author-credit a:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
   <h1>🧩 Problem Solvers' Companion</h1>
     <div class="author-credit">
-  Created by <a href="https://www.linkedin.com/in/srijit-mukherjee/" target="_blank">Srijit Mukherjee</a>
-  </div>
+  Created by 
+  <a href="https://www.linkedin.com/in/srijit-mukherjee/" target="_blank" rel="noopener noreferrer">
+    Srijit Mukherjee
+  </a>
+</div>
   <div class="filters">
     <label>Topic:
       <input type="text" id="filterTopic" placeholder="e.g., Algebra" />
