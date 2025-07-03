@@ -21,108 +21,152 @@
       text-align: center;
     }
     .filters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      background: #ffffff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: #555;
+  flex: 1 1 130px;
+  min-width: 110px;
+}
+
+.filters input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border 0.2s;
+  font-size: 0.9rem;
+}
+
+.filters input:focus {
+  border-color: #007bff;
+}
+
+#filterButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  align-self: flex-end;
+  height: fit-content;
+  margin-top: auto;
+}
+
+#filterButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    padding: 8px;
+  }
+  .filters label {
+    flex: 1 1 45%;
+    min-width: unset;
+  }
+  #filterButton {
+    flex: 1 1 90%;
+    margin-top: 6px;
+  }
+}
+  #filterButton:hover {
+    background-color: #0056b3;
+  }
+  .table-container {
+    width: 100%;
+    max-width: 1000px;
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    word-break: break-word;
+  }
+  th {
+    background-color: #f2f2f2;
+    color: #555;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  .access-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.3s;
+  }
+  .access-button:hover {
+    background-color: #218838;
+  }
+  @media (max-width: 600px) {
+    .filters {
+      flex-direction: column;
+      gap: 12px;
     }
     .filters label {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.9rem;
-      color: #555;
-      flex: 1 1 150px;
-      min-width: 120px;
-    }
-    .filters input {
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      transition: border 0.2s;
-      font-size: 1rem;
-    }
-    .filters input:focus {
-      border-color: #007bff;
-    }
-    #filterButton {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: background-color 0.3s;
-      align-self: center;
-      margin-top: auto;
-      height: fit-content;
-    }
-    #filterButton:hover {
-      background-color: #0056b3;
-    }
-    .table-container {
       width: 100%;
-      max-width: 1000px;
-      overflow-x: auto;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      background: white;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      min-width: 600px;
     }
     th, td {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-      font-size: 0.95rem;
-      word-break: break-word;
+      font-size: 0.9rem;
     }
-    th {
-      background-color: #f2f2f2;
-      color: #555;
-      position: sticky;
-      top: 0;
-      z-index: 1;
     }
-    tr:hover {
-      background-color: #f9f9f9;
-    }
-    .access-button {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: background-color 0.3s;
-    }
-    .access-button:hover {
-      background-color: #218838;
-    }
-    @media (max-width: 600px) {
-      .filters {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .filters label {
-        width: 100%;
-      }
-      th, td {
-        font-size: 0.9rem;
-      }
-    }
+    
+  .table-tip {
+  background-color: #fff8e1;
+  color: #6d4c41;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  max-width: 95%;
+  text-align: center;
+  margin-bottom: 10px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .table-tip {
+    display: block;
+  }
+}
   </style>
 </head>
 <body>
@@ -145,6 +189,10 @@
       <input type="text" id="filterProblem" placeholder="e.g., 12" />
     </label>
     <button id="filterButton">Apply Filters</button>
+  </div>
+
+  <div class="table-tip">
+  📱 Tip: Scroll right on your phone to view the full table.
   </div>
 
   <div class="table-container">
