@@ -127,58 +127,76 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script>
-    const csvUrl = "https://raw.githubusercontent.com/mukherjeesrijit/problem-solvers-companion/main/problems.csv";
-    let allData = [];
-    fetch(csvUrl)
-      .then(response => response.text())
-      .then(csvText => {
-        Papa.parse(csvText, {
-          header: true,
-          skipEmptyLines: true,
-          complete: function(results) {
-            allData = results.data;
-            renderTable(allData);
-          }
-        });
+  const csvUrl = "https://raw.githubusercontent.com/mukherjeesrijit/problem-solvers-companion/main/problems.csv";
+  let allData = [];
+  fetch(csvUrl)
+    .then(response => response.text())
+    .then(csvText => {
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          allData = results.data;
+          renderTable(allData);
+        }
       });
-
-    document.getElementById('filterButton').addEventListener('click', function() {
-      const topic = document.getElementById('filterTopic').value.toLowerCase();
-      const subTopic = document.getElementById('filterSubTopic').value.toLowerCase();
-      const exam = document.getElementById('filterExam').value.toLowerCase();
-      const year = document.getElementById('filterYear').value.toLowerCase();
-      const problem = document.getElementById('filterProblem').value.toLowerCase();
-      const filtered = allData.filter(row => {
-        return (!topic || (row['Topic'] || '').toLowerCase().includes(topic)) &&
-               (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
-               (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
-               (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
-               (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
-      });
-      renderTable(filtered);
     });
 
-    function renderTable(data) {
-      const tbody = document.querySelector('#problemTable tbody');
-      tbody.innerHTML = '';
-      data.forEach(row => {
-        const tr = document.createElement('tr');
-        Object.keys(row).forEach(key => {
-          const td = document.createElement('td');
-          if (key === 'Link') {
-            const a = document.createElement('a');
-            a.href = row[key];
-            a.target = '_blank';
-            a.textContent = 'Open Colab';
-            td.appendChild(a);
+  document.getElementById('filterButton').addEventListener('click', function() {
+    const topic = document.getElementById('filterTopic').value.toLowerCase();
+    const subTopic = document.getElementById('filterSubTopic').value.toLowerCase();
+    const exam = document.getElementById('filterExam').value.toLowerCase();
+    const year = document.getElementById('filterYear').value.toLowerCase();
+    const problem = document.getElementById('filterProblem').value.toLowerCase();
+    const filtered = allData.filter(row => {
+      return (!topic || (row['Topic'] || '').toLowerCase().includes(topic)) &&
+             (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
+             (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
+             (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
+             (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
+    });
+    renderTable(filtered);
+  });
+
+  function renderTable(data) {
+    const tbody = document.querySelector('#problemTable tbody');
+    tbody.innerHTML = '';
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      Object.keys(row).forEach(key => {
+        const td = document.createElement('td');
+        if (key === 'Link') {
+          if (row[key]) {
+            const button = document.createElement('button');
+            button.textContent = 'Access here';
+            button.style.backgroundColor = '#28a745';
+            button.style.color = 'white';
+            button.style.border = 'none';
+            button.style.padding = '6px 10px';
+            button.style.borderRadius = '5px';
+            button.style.cursor = 'pointer';
+            button.style.fontSize = '0.85rem';
+            button.addEventListener('click', () => {
+              window.open(row[key], '_blank');
+            });
+            button.addEventListener('mouseover', () => {
+              button.style.backgroundColor = '#218838';
+            });
+            button.addEventListener('mouseout', () => {
+              button.style.backgroundColor = '#28a745';
+            });
+            td.appendChild(button);
           } else {
-            td.textContent = row[key];
+            td.textContent = 'N/A';
           }
-          tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
+        } else {
+          td.textContent = row[key];
+        }
+        tr.appendChild(td);
       });
-    }
+      tbody.appendChild(tr);
+    });
+  }
   </script>
 </body>
 </html>
