@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🧩 Problem Solving Companion</title>
   <style>
     body {
@@ -17,17 +18,20 @@
       color: #333;
       margin-bottom: 20px;
       font-size: 1.8rem;
+      text-align: center;
     }
     .filters {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 20px;
       background: #ffffff;
       padding: 15px;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 900px;
     }
     .filters label {
       display: flex;
@@ -43,7 +47,7 @@
       transition: border 0.2s;
     }
     .filters input:focus {
-      border: 1px solid #007bff;
+      border-color: #007bff;
     }
     #filterButton {
       background-color: #007bff;
@@ -55,6 +59,8 @@
       font-size: 0.9rem;
       transition: background-color 0.3s;
       align-self: center;
+      height: 38px;
+      margin-top: 18px;
     }
     #filterButton:hover {
       background-color: #0056b3;
@@ -73,6 +79,7 @@
       padding: 10px;
       border-bottom: 1px solid #eee;
       font-size: 0.95rem;
+      word-break: break-word;
     }
     th {
       background-color: #f2f2f2;
@@ -81,12 +88,18 @@
     tr:hover {
       background-color: #f9f9f9;
     }
-    a {
-      color: #007bff;
-      text-decoration: none;
+    .access-button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background-color 0.3s;
     }
-    a:hover {
-      text-decoration: underline;
+    .access-button:hover {
+      background-color: #218838;
     }
     @media (max-width: 600px) {
       .filters {
@@ -101,14 +114,26 @@
 </head>
 <body>
   <h1>🧩 Problem Solving Companion</h1>
+
   <div class="filters">
-    <label>Topic: <input type="text" id="filterTopic"></label>
-    <label>Sub Topic: <input type="text" id="filterSubTopic"></label>
-    <label>Exam: <input type="text" id="filterExam"></label>
-    <label>Year: <input type="text" id="filterYear"></label>
-    <label>Problem #: <input type="text" id="filterProblem"></label>
+    <label>Topic:
+      <input type="text" id="filterTopic" placeholder="e.g., Algebra"/>
+    </label>
+    <label>Sub Topic:
+      <input type="text" id="filterSubTopic" placeholder="e.g., Vectors"/>
+    </label>
+    <label>Exam:
+      <input type="text" id="filterExam" placeholder="e.g., AMC"/>
+    </label>
+    <label>Year:
+      <input type="text" id="filterYear" placeholder="e.g., 2024"/>
+    </label>
+    <label>Problem #:
+      <input type="text" id="filterProblem" placeholder="e.g., 12"/>
+    </label>
     <button id="filterButton">Apply Filters</button>
   </div>
+
   <table id="problemTable">
     <thead>
       <tr>
@@ -119,7 +144,6 @@
         <th>Exam</th>
         <th>Year</th>
         <th>Problem #</th>
-        <th>Comments</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -127,76 +151,71 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script>
-  const csvUrl = "https://raw.githubusercontent.com/mukherjeesrijit/problem-solvers-companion/main/problems.csv";
-  let allData = [];
-  fetch(csvUrl)
-    .then(response => response.text())
-    .then(csvText => {
-      Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-        complete: function(results) {
-          allData = results.data;
-          renderTable(allData);
-        }
-      });
-    });
+    const csvUrl = "https://raw.githubusercontent.com/mukherjeesrijit/problem-solvers-companion/main/problems.csv";
+    let allData = [];
 
-  document.getElementById('filterButton').addEventListener('click', function() {
-    const topic = document.getElementById('filterTopic').value.toLowerCase();
-    const subTopic = document.getElementById('filterSubTopic').value.toLowerCase();
-    const exam = document.getElementById('filterExam').value.toLowerCase();
-    const year = document.getElementById('filterYear').value.toLowerCase();
-    const problem = document.getElementById('filterProblem').value.toLowerCase();
-    const filtered = allData.filter(row => {
-      return (!topic || (row['Topic'] || '').toLowerCase().includes(topic)) &&
-             (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
-             (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
-             (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
-             (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
-    });
-    renderTable(filtered);
-  });
-
-  function renderTable(data) {
-    const tbody = document.querySelector('#problemTable tbody');
-    tbody.innerHTML = '';
-    data.forEach(row => {
-      const tr = document.createElement('tr');
-      Object.keys(row).forEach(key => {
-        const td = document.createElement('td');
-        if (key === 'Link') {
-          if (row[key]) {
-            const button = document.createElement('button');
-            button.textContent = 'Access here';
-            button.style.backgroundColor = '#28a745';
-            button.style.color = 'white';
-            button.style.border = 'none';
-            button.style.padding = '6px 10px';
-            button.style.borderRadius = '5px';
-            button.style.cursor = 'pointer';
-            button.style.fontSize = '0.85rem';
-            button.addEventListener('click', () => {
-              window.open(row[key], '_blank');
-            });
-            button.addEventListener('mouseover', () => {
-              button.style.backgroundColor = '#218838';
-            });
-            button.addEventListener('mouseout', () => {
-              button.style.backgroundColor = '#28a745';
-            });
-            td.appendChild(button);
-          } else {
-            td.textContent = 'N/A';
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csvText => {
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            allData = results.data;
+            renderTable(allData);
           }
-        } else {
-          td.textContent = row[key];
-        }
-        tr.appendChild(td);
+        });
       });
-      tbody.appendChild(tr);
+
+    document.getElementById('filterButton').addEventListener('click', () => {
+      const topic = document.getElementById('filterTopic').value.toLowerCase();
+      const subTopic = document.getElementById('filterSubTopic').value.toLowerCase();
+      const exam = document.getElementById('filterExam').value.toLowerCase();
+      const year = document.getElementById('filterYear').value.toLowerCase();
+      const problem = document.getElementById('filterProblem').value.toLowerCase();
+
+      const filtered = allData.filter(row => {
+        return (!topic || (row['Topic'] || '').toLowerCase().includes(topic)) &&
+               (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
+               (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
+               (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
+               (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
+      });
+      renderTable(filtered);
     });
-  }
+
+    function renderTable(data) {
+      const tbody = document.querySelector('#problemTable tbody');
+      tbody.innerHTML = '';
+
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+
+        Object.keys(row).forEach(key => {
+          const td = document.createElement('td');
+
+          if (key === 'Link') {
+            if (row[key]) {
+              const button = document.createElement('button');
+              button.textContent = 'Access here';
+              button.className = 'access-button';
+              button.addEventListener('click', () => {
+                window.open(row[key], '_blank');
+              });
+              td.appendChild(button);
+            } else {
+              td.textContent = 'N/A';
+            }
+          } else {
+            td.textContent = row[key];
+          }
+
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
   </script>
 </body>
 </html>
