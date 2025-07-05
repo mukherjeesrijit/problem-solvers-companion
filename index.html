@@ -207,7 +207,7 @@
     <label>Year:
       <input type="text" id="filterYear" placeholder="e.g., 2024" />
     </label>
-    <label>Problem #:
+    <label>Problem:
       <input type="text" id="filterProblem" placeholder="e.g., 12" />
     </label>
     <button id="filterButton">Apply Filters</button>
@@ -227,7 +227,7 @@
           <th>Sub Topic</th>
           <th>Exam</th>
           <th>Year</th>
-          <th>Problem #</th>
+          <th>Problem</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -264,7 +264,7 @@
                (!subTopic || (row['Sub Topic'] || '').toLowerCase().includes(subTopic)) &&
                (!exam || (row['Exam'] || '').toLowerCase().includes(exam)) &&
                (!year || (row['Year'] || '').toLowerCase().includes(year)) &&
-               (!problem || (row['Problem #'] || '').toLowerCase().includes(problem));
+               (!problem || (row['Problem'] || '').toLowerCase().includes(problem));
       });
       renderTable(filtered);
     });
